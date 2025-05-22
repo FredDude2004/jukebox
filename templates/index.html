@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h1 class="title">
-	Flask Login Example
-</h1>
-<h2 class="subtitle">
-	Easy authentication and authorization in Flask.
-</h2>
+{% block body %}
+
+<div class="container">
+	<h1>Welcome</h1>
+	<form action="">
+		<input type="text" name="username" placeholder="username" class="input-field" />
+		<input type="password" name="password" placeholder="password" class="input-field" />
+		<input type="submit" value="Login" class="btn btn-login" />
+		<input type="button" value="Register" class="btn btn-login"/>
+	</form>
+</div>
+
 {% endblock %}
