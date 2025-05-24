@@ -55,7 +55,7 @@ def register():
     if user:
         return render_template('index.html', error='User already exists')
     else:
-        new_user = User(username = username)
+        new_user = User(username=username)
         new_user.set_password(password)
         db.session.add(new_user)
         db.session.commit()
@@ -67,12 +67,11 @@ def register():
 @app.route("/dashboard")
 def dashboard():
     if 'username' in session:
-        return render_template('dahsboard.html', username=session['username'])
-    return redirect(url_for('home'))
+        return render_template('dashboard.html', username=session['username'])
+    return redirect(url_for('index'))
 
 
-
-
+# NOTE Time-stamp 47:29
 
 ### Logout 
 
