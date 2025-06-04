@@ -1,6 +1,16 @@
 from flask import render_template, request, redirect, session, url_for, current_app as app
 from .models import User
 from . import db
+from queue import Queue
+import os
+import uuid
+import yt_dlp
+
+
+DOWNLOAD_FOLDER = 'downloads'
+os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
+
+download_queue = Queue()
 
 @app.route('/')
 def index():
@@ -41,3 +51,32 @@ def dashboard():
 def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
+
+def add_to_queue(link):
+    try:
+        filename = f"{uuid.uuid4()}.mp3"
+        filepath = os.path.join(DOWNLOAD_FOLDER, filename)
+
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'outtmpl': filepath.replace('.mp3', '.%(ext)s'),
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }],
+            'quiet': True,
+        }
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([link])
+
+        # Add metadata to the queue
+        download_queue.put({
+            'link': link,
+            'filename': filename,
+            'filepath': filepath
+        })
+
+    except Exception as e:
+        print(f"Failed to download {link}: {e}")
