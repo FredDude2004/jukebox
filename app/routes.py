@@ -52,6 +52,13 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('index'))
 
+@app.route('/add', methods=['POST'])
+def add_to_queue_route():
+    link = request.form['song']
+    add_to_queue(link)
+    return redirect(url_for('dashboard'))
+
+
 def add_to_queue(link):
     try:
         filename = f"{uuid.uuid4()}.mp3"
