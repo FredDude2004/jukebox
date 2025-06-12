@@ -5,6 +5,7 @@ from queue import Queue
 import os
 import uuid
 import yt_dlp
+import pygame
 
 
 DOWNLOAD_FOLDER = 'downloads'
@@ -85,5 +86,38 @@ def add_to_queue(link):
             'filepath': filepath
         })
 
+        print(f"Queued file at {filepath}, exists: {os.path.exists(filepath)}", flush=True)
+        handle_enqueue()
+
     except Exception as e:
         print(f"Failed to download {link}: {e}")
+
+
+
+# Playing the Audio File
+def play_audio(path):
+    if not os.path.exists(path):
+        print(f"File not found: {path}", flush=True)
+        return
+
+    pygame.mixer.music.load(path)
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy() == True:
+        continue
+
+    os.remove(path) # Delete the file once done playing
+
+def handle_enqueue():
+    audio_file = download_queue.get()
+    audio_file_path = audio_file['filepath']
+    print(audio_file_path, flush=True)
+    play_audio(audio_file_path)
+
+        
+
+
+
+
+
+
+
