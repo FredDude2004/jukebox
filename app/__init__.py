@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
+import threading 
 
 db = SQLAlchemy()
 
@@ -17,14 +18,27 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-        from .models import User
+        from .models import User, SongQueue
         db.create_all()
 
         # Setup admin separately
         from .admin import init_admin
         init_admin(app, db)
 
-        # Import routes after models and admin
         from . import routes
+
+        from .song_worker import song_worker
+        def start_worker(app):
+            from .song_worker import song_worker
+
+            def wrapped_worker():
+                with app.app_context():
+                    song_worker()
+
+            t = threading.Thread(target=song_worker, name="SongWorker", daemon=True)
+            t.start()
+
+    if os.getenv("WEKZEUG_RUN_MAIN") == "true":
+        start_worker(app)
 
     return app

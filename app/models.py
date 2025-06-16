@@ -1,4 +1,4 @@
-from . import db
+from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model):
@@ -14,3 +14,10 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+class SongQueue(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(512), nullable=False)
+    filename = db.Column(db.String(256), nullable=False)
+    filepath = db.Column(db.String(512), nullable=False)
+    played = db.Column(db.Boolean, default=False)
