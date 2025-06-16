@@ -1,12 +1,9 @@
 from .models import SongQueue 
-from . import db
-from queue import Queue
+from .db import db
 import os
+import threading
 import uuid
 import yt_dlp
-import pygame
-import threading
-import time
 
 DOWNLOAD_FOLDER = 'downloads'
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)

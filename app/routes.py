@@ -1,11 +1,7 @@
 from flask import render_template, request, redirect, session, url_for, current_app as app
 from .models import User
 from .song_queue import add_to_queue
-from . import db
-import os
-import uuid
-import yt_dlp
-import pygame
+from .db import db
 
 @app.route('/')
 def index():

@@ -1,44 +1,37 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
-import os
-import threading 
+from app.song_worker import song_worker
+from app.config import Config
+from app.db import db
+import threading
 
-db = SQLAlchemy()
-
-def create_app():
+def create_app(config_class=Config):
     load_dotenv()
 
     app = Flask(__name__)
-    app.secret_key = os.getenv("SECRET_KEY")
+    app.config.from_object(config_class)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+    # ✅ Initialize the database with the app
     db.init_app(app)
 
     with app.app_context():
         from .models import User, SongQueue
         db.create_all()
 
-        # Setup admin separately
         from .admin import init_admin
         init_admin(app, db)
 
-        from . import routes
+        from app import routes
 
-        from .song_worker import song_worker
-        def start_worker(app):
-            from .song_worker import song_worker
-
-            def wrapped_worker():
-                with app.app_context():
-                    song_worker()
-
-            t = threading.Thread(target=song_worker, name="SongWorker", daemon=True)
-            t.start()
-
-    if os.getenv("WEKZEUG_RUN_MAIN") == "true":
+        # ✅ Start background worker thread with context
         start_worker(app)
 
     return app
+
+def start_worker(app):
+    def run_worker():
+        with app.app_context():
+            song_worker()
+    t = threading.Thread(target=run_worker, name="SongWorker", daemon=True)
+    t.start()

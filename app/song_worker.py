@@ -1,5 +1,5 @@
 from .models import SongQueue
-from . import db
+from .db import db
 import pygame
 import time
 import os
