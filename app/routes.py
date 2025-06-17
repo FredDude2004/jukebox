@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, session, url_for, current_app as app
-from .models import User
+from .models import User, SongQueue
 from .song_queue import add_to_queue
 from .db import db
 
@@ -35,7 +35,8 @@ def register():
 @app.route("/dashboard")
 def dashboard():
     if 'username' in session:
-        return render_template('dashboard.html', username=session['username'])
+        songs = SongQueue.query.order_by(SongQueue.id).all()
+        return render_template('dashboard.html', username=session['username'], songs=songs)
     return redirect(url_for('index'))
 
 @app.route('/logout')

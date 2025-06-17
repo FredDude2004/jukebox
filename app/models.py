@@ -20,4 +20,6 @@ class SongQueue(db.Model):
     url = db.Column(db.String(512), nullable=False)
     filename = db.Column(db.String(256), nullable=False)
     filepath = db.Column(db.String(512), nullable=False)
+    title = db.Column(db.String(512), nullable=True)
+    is_playing = db.Column(db.Boolean, default=False)
     played = db.Column(db.Boolean, default=False)

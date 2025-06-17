@@ -24,18 +24,20 @@ def download_song(url):
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
+        info = ydl.extract_info(url, download=True)
+        title = 'Unknown title'
+        if info:
+            title = info.get('title', 'Unknown title')
 
-    return filename, filepath
-
+    return filename, filepath, title
 
 def add_to_queue(url):
     try:
-        filename, filepath = download_song(url)
-        new_song = SongQueue(url=url, filename=filename, filepath=filepath)
+        filename, filepath, title = download_song(url)
+        new_song = SongQueue(url=url, filename=filename, filepath=filepath, title=title)
         db.session.add(new_song)
         db.session.commit()
-        print(f"Added to DB queue: {filepath}", flush=True)
+        print(f"Added to DB queue: {title}", flush=True)
     except Exception as e:
         print(f"Download failed: {e}", flush=True)
 

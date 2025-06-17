@@ -17,13 +17,30 @@
                         </div>
                     </form>
 
-                    <!-- Placeholder for the song queue -->
+                    <!-- Song Queue Display -->
                     <div class="card mt-4 text-start">
                         <div class="card-header bg-light">
                             <h5 class="mb-0">Song Queue</h5>
                         </div>
                         <div class="card-body" id="queue-container">
-                            <p class="text-muted">The queue is currently empty.</p>
+                            {% if songs %}
+                                <ul class="list-group list-group-flush">
+                                    {% for song in songs %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div class="me-2">
+                                                <strong>{{ song.title }}</strong><br>
+                                            </div>
+                                            {% if song.is_playing %}
+                                                <span class="badge bg-success rounded-pill">Playing</span>
+                                            {% else %}
+                                                <span class="badge bg-warning text-dark rounded-pill">In Queue</span>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p class="text-muted">The queue is currently empty.</p>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -33,4 +50,21 @@
         </div>
     </div>
 </div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+<script>
+  const socket = io();
+
+  socket.on('connect', () => {
+    console.log("Socket connected:", socket.id);
+  });
+
+  socket.on('refresh_screen', () => {
+    console.log("Recieved refresh_screen");
+    window.location.reload();
+  });
+</script>
+
 {% endblock %}
+
+
