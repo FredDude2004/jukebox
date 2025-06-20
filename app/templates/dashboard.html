@@ -10,7 +10,7 @@
                     <p class="card-text">You're logged in to your dashboard.</p>
 
                     <!-- Input box for adding songs -->
-                    <form method="POST" action="{{ url_for('add_to_queue_route') }}">
+                    <form method="POST" action="{{ url_for('main.add_song') }}">
                         <div class="input-group my-4">
                             <input type="text" name="song" class="form-control" placeholder="Enter a YouTube link to a song..." required>
                             <button type="submit" class="btn btn-primary">Add</button>
@@ -44,7 +44,7 @@
                         </div>
                     </div>
 
-                    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger mt-4">Logout</a>
+                    <a href="{{ url_for('main.logout') }}" class="btn btn-outline-danger mt-4">Logout</a>
                 </div>
             </div>
         </div>

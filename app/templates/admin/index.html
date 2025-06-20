@@ -1,5 +1,11 @@
-{% extends 'admin/master.html' %}
+{% extends 'base.html' %}
 
 {% block body %}
-<h1>Admin Dashboard</h1>
+<div class="container">
+    <h1 class="mb-4">Admin Dashboard</h1>
+    <form method="POST" action="{{ url_for('admin_routes.admin_control') }}">
+        <button type="submit" name="action" value="pause" class="btn btn-warning">Pause</button>
+        <button type="submit" name="action" value="skip" class="btn btn-danger">Skip</button>
+    </form>
+</div>
 {% endblock %}

@@ -1,5 +1,5 @@
 from app import create_app
-from app.socketio import socketio
+from app.config import socketio
 
 app = create_app()
 

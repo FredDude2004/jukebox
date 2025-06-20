@@ -1,5 +1,5 @@
 from .models import SongQueue 
-from .db import db
+from .config import db
 import os
 import threading
 import uuid

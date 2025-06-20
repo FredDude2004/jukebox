@@ -54,9 +54,9 @@
 	function setActionForm(action) {
 		const form = document.getElementById("auth-form");
 		if (action === "login") {
-			form.action = "{{ url_for('login') }}";
+			form.action = "{{ url_for('main.login') }}";
 		} else if (action === "register") {
-			form.action = "{{ url_for('register') }}";
+			form.action = "{{ url_for('main.register') }}";
 		}
 		form.submit();
 	}
