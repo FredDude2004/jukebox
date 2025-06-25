@@ -1,5 +1,6 @@
 from .models import SongQueue
 from .config import db, socketio
+import sqlite3
 import pygame
 import time
 import os
@@ -16,8 +17,18 @@ def pause():
         print("Paused")
     is_paused = not is_paused
 
-def stop():
+def skip():
     pygame.mixer.music.stop()
+
+def stop_queue():
+    conn = sqlite3.connect('SongQueue')
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM SongQueue")
+
+    conn.commit()
+    conn.close()
+
 
 def play_audio(path):
     global song_playing

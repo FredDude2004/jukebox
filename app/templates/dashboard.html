@@ -13,7 +13,7 @@
                     <form method="POST" action="{{ url_for('main.add_song') }}">
                         <div class="input-group my-4">
                             <input type="text" name="song" class="form-control" placeholder="Enter a YouTube link to a song..." required>
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="submit" onclick="showLoading(this)" class="btn btn-primary">Add</button>
                         </div>
                     </form>
 
@@ -63,6 +63,12 @@
     console.log("Recieved refresh_screen");
     window.location.reload();
   });
+
+  function showLoading(button) {
+    button.disabled = true;
+    button.innerHTML = 'Adding... <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+    button.form.submit();
+  }
 </script>
 
 {% endblock %}
