@@ -1,7 +1,7 @@
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from .models import User, SongQueue
-from .song_worker import pause, skip, stop_queue
+from .song_worker import pause, skip, clear_queue 
 
 admin = Admin(name='Jukebox Admin', template_mode='bootstrap3')
 
@@ -15,6 +15,6 @@ def handle_admin_action(action):
         pause()
     elif action == "skip":
         skip()
-    elif action == "stop":
-        stop_queue()
+    elif action == "clear_queue":
+        clear_queue()
 

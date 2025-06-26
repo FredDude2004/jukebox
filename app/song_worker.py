@@ -1,6 +1,5 @@
-from .models import SongQueue
 from .config import db, socketio
-import sqlite3
+from .models import SongQueue
 import pygame
 import time
 import os
@@ -20,15 +19,26 @@ def pause():
 def skip():
     pygame.mixer.music.stop()
 
-def stop_queue():
-    conn = sqlite3.connect('SongQueue')
-    cursor = conn.cursor()
+def clear_queue():
+    # deleting all songs from DB
+    SongQueue.query.delete()
+    db.session.commit()
 
-    cursor.execute("DELETE FROM SongQueue")
+    print("All rows deleted from SongQueue")
 
-    conn.commit()
-    conn.close()
+    # stopping current song
+    pygame.mixer.music.stop()
 
+    # removing all downloaded songs
+    downloads_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'downloads')
+    downloads_dir = os.path.abspath(downloads_dir)
+
+    if os.path.exists(downloads_dir):
+        for file in os.listdir(downloads_dir):
+            os.remove(os.path.join(downloads_dir, file))
+        print("Queue Cleared")
+    else:
+        print(f"Directory not found: {downloads_dir}")
 
 def play_audio(path):
     global song_playing
@@ -54,11 +64,11 @@ def song_worker():
             if song:
                 song.is_playing = True
                 db.session.commit()
-                socketio.emit('refresh_screen')
+                socketio.emit("refresh_screen")
                 play_audio(song.filepath)
                 db.session.delete(song)
                 db.session.commit()
-                socketio.emit('refresh_screen')
+                socketio.emit("refresh_screen")
             else:
                 time.sleep(1)
         except Exception as e:

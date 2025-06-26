@@ -14,9 +14,8 @@ def index():
 @main_bp.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
-    password = request.form['password']
     user = User.query.filter_by(username=username).first()
-    if user and user.check_password(password):
+    if user: 
         session['username'] = username
         if username == 'admin':
             return redirect(url_for('admin_routes.admin_dashboard'))
@@ -26,14 +25,12 @@ def login():
 @main_bp.route('/register', methods=['POST'])
 def register():
     username = request.form['username']
-    password = request.form['password']
     if User.query.filter_by(username=username).first():
         return render_template('index.html', error='User already exists')
     new_user = User(username=username)
-    new_user.set_password(password)
     db.session.add(new_user)
     db.session.commit()
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.dashboard'))
 
 @main_bp.route('/dashboard')
 def dashboard():
