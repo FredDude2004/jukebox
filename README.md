@@ -124,7 +124,7 @@ python .\run.py
 When you are done with the program, just send a KeyBoardInterrupt with ^C
 
 ### NOTE:
-If you do not clear the queue before ending the program the queue the next time that you run the program it will replay the current song and go from there.
+If you do not clear the queue before ending the program the next time that you run there is some odd behavior with the program playing the songs that are left in the queue. The expected behavior is to clear the queue before ending the program.
 
 ## Linux
 You can install all of the prerequisites using your distibustions package manager
@@ -194,7 +194,7 @@ python run.py
 When you are done with the program, just send a KeyBoardInterrupt with ^C
 
 ### NOTE:
-If you do not clear the queue before ending the program the queue the next time that you run the program it will replay the current song and go from there.
+If you do not clear the queue before ending the program the next time that you run there is some odd behavior with the program playing the songs that are left in the queue. The expected behavior is to clear the queue before ending the program.
 
 ## Using Jukebox
 After following the [Installation](#installation) instructions on whatever device that you want to host the server you can start using the Jukebox.
