@@ -1,41 +1,38 @@
 # 🎵 Jukebox
 
-A joint music queue web app built with Flask. Jukebox allows users to add songs to a queue via YouTube, and an admin can control playback (pause, skip, stop) through a secure dashboard. Ideal for parties or shared spaces where everyone can contribute to the vibe.
+A joint music queue built with Flask. Jukebox allows users to add songs to a queue via YouTube and YouTube Music links, and an admin can control playback (pause, skip, clear queue) through a secure dashboard. Ideal for parties or shared spaces where everyone can contribute to the vibe.
 
 ---
 - [Installation](#installation)
 - [Using Jukebox](#using-jukebox)
 ---
 
-I followed a lot of different tutorials and esentially Frankenstein's Monstered this together.
-Here is a list of the tutorials that I followed to get this working. 
+I followed a lot of different tutorials and esentially Frankenstein's Monstered this together. Here is a list of the tutorials that I followed to get this working. 
 
 ### Official Flask documentation
-  Great resource for getting started, [Flask Documentation](https://flask.palletsprojects.com/en/stable/)
+- Great resource for getting started, [Flask Documentation](https://flask.palletsprojects.com/en/stable/).
 
 ### Downloading Music from YouTube with Python:
-  [Tutorial](https://www.youtube.com/watch?v=U5CUkxUh2CQ) for a Discord Music bot using yt-dlp and FFmpeg. 
+- [Tutorial](https://www.youtube.com/watch?v=U5CUkxUh2CQ) for a Discord Music bot which used yt-dlp and FFmpeg. 
 
 ### Simple Flask Blog from Scratch:
-  Digital Ocean's tutorial for a [flask-blog](https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3) used this to get a sense for the structure of a flask application. 
+- Digital Ocean's tutorial for a [flask-blog](https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3). I used this to get a sense for the structure of a flask application. 
 
 ### User Authentication:
-   Another Digital Ocean tutorial for [user-authentiacation](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login)
-   Also heavily used this [tutorial](https://youtu.be/Fr2MxT9M0V4?si=UXkqOSAb8cqTn49T)for user authentiacation, and I ended up scrapping the passwords because there didn't seem to be a need from the tests I did. 
+- Another Digital Ocean tutorial for [user-authentiacation](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login)
+- Also heavily used this [tutorial](https://youtu.be/Fr2MxT9M0V4?si=UXkqOSAb8cqTn49T)for user authentiacation. I ended up scrapping the passwords because they didn't seem to be necessary with the tests that I did.
 
 ### Admin Dashboard:
-  Video showcasing default [admin-dashboard](https://www.youtube.com/watch?v=G1FBSYJ45Ww)
-  Official [documentation](https://flask-admin.readthedocs.io/en/stable/)
-  I had the defualt dashboard originally but something broke when I was adding the Pause, Skip and Clear Queue buttons, and I couldn't figure out how to fix it.
+- Video showcasing default [admin-dashboard](https://www.youtube.com/watch?v=G1FBSYJ45Ww).
+- Official [documentation](https://flask-admin.readthedocs.io/en/stable/). I had the defualt dashboard working originally but something broke when I was adding the Pause, Skip and Clear Queue buttons, and I couldn't figure out how to fix it :(
 
 ### Playing the Audio:
-  Ended up using pygame for playing the audio using [this](https://youtu.be/5F9cl4ZCqQ8?si=VNEBMN1oKNDfPBVo) tutorial, which worked great. 
+- Ended up using pygame for playing the audio using [this](https://youtu.be/5F9cl4ZCqQ8?si=VNEBMN1oKNDfPBVo) tutorial, which worked great. 
 
 ---
 
 ##  Features
-
--  Add songs to a shared queue by pasting YouTube links
+-  Add songs to a shared queue by pasting YouTube or YouTube Music links
 -  Admin dashboard for playback controls (Pause, Skip, Clear Queue)
 -  Real-time updates using WebSockets (Flask-SocketIO)
 -  BasicAuth-protected admin interface
@@ -49,7 +46,7 @@ Here is a list of the tutorials that I followed to get this working.
 ###  Prerequisites
 
 - Python 3.8+
-- FFmpeg installed (`ffmpeg` available in PATH)
+- FFmpeg 
 - Git
 
 ## Windows
@@ -59,7 +56,7 @@ Make sure you're running PowerShell as an administrator and install the packages
 ```powershell
 choco install python ffmpeg git.install
 ```
-Once the packages are installed you can open a regular PowerShell instance and go to wherever you want the program to stay (i.e. C:\Users\<USERNAME>\Desktop\..).
+Once the packages are installed you can open a regular PowerShell instance and go to wherever you want the program to stay (i.e. C:\Users\<USERNAME>\Desktop\..) and clone it out.
 
 ```powershell 
 # Clone the repo 
@@ -84,7 +81,7 @@ echo . > .env
 code . # opens current folder in VSCode
 ```
 
-Then setup the variables
+Then set the variables
 
 ```txt
 # Database Key
@@ -95,26 +92,27 @@ BASIC_AUTH_USERNAME='admin' # keep this as admin
 BASIC_AUTH_PASSWORD='password' # change this to whatever you want 
 ```
 
-For setting a secure database key you can generate one like this 
+For setting a secure database key you can generate one like this,
 
 ```powershell
 python -c "import secrets; print(secrets.token_hex(32))"
 ```
 
-and copy the output into the .env file. 
+Then just set the SECRET_KEY variable to the output.
 
-Now with everything setup you can just run the program, you will need to know your IP address for other users on your network can able to access the site, once the server is running they can visit 
+Now with everything set up you can just run the program. You will need to know your IP address so other users on your network can access the site. Once the server is running they can visit,
 
 ```txt
 http://<YOUR_IP_ADDRESS>:5000
 ```
+Run this command to get your IP Address.
 
 ```powershell
 # get IP Address
 Get-NetIPAddress | Where-Object {$_.IPAddress -like "192.168.*"} | Select-Object IPAddress
 ```
 
-Then just run the program
+Then just run the program,
 
 ```powershell
 python .\run.py
@@ -164,13 +162,14 @@ BASIC_AUTH_USERNAME='admin' # keep this as admin
 BASIC_AUTH_PASSWORD='password' # change this to whatever you want 
 ```
 
-For setting a secure database key you can generate one like this 
+For setting a secure database key you can generate one like this,
 
 ```bash
 python -c "import secrets; print(secrets.token_hex(32))"
 ```
+and just assign the SECRET_KEY variable to the output.
 
-You are going to need your IP address to be for people on your network to be able to access the site.
+You are going to need your IP address for people on your network to be able to access the site.
 
 ```bash
 # For Raspberry Pi
@@ -189,7 +188,7 @@ python run.py
 When you are done with the program, just send a KeyBoardInterrupt with ^C
 
 ## Using Jukebox
-On whatever device that you want to host the server follow the [Installation](#installation) instructions 
+After following the [Installation](#installation) instructions on whatever device that you want to host the server you can start using the Jukebox.
 
 ### Admin Dashboard 
 The first thing you should do after running the server for the first time is register the admin user. Visit the site by clicking on the link that is printed on the terminal and enter "admin" as the username and click register. 
@@ -210,7 +209,10 @@ Once you are running the server and you have noted down your IP Address, others 
 http://<YOUR_IP_ADDRESS>:5000
 ```
 
-Once they are there they can enter their username and register. Once registered they will be brought to the dashboard where they can view the queue and enter songs to be added to the queue. 
+Once they are there they can enter their username, register and login. Once logged in they will be brought to the dashboard where they can view the queue and enter songs to be added to the queue. 
 
-NOTE: There is a duration limit of the video link that can be submited of 1 hour and 10 minutes. This stops users from flooding the queue with "10 Hours of Fart Noises" while still allowing you to add longer mixes if so desired. 
+![User_Dashboard](./images/User_Dashboard.png)
+
+### NOTE:
+There is a duration limit of the video link that can be submited of 1 hour and 10 minutes. This stops users from flooding the queue with "10 Hours of Fart Noises" while still allowing you to add longer mixes if so desired. 
 
