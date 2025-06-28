@@ -44,7 +44,7 @@ def clear_queue():
             try:
                 os.remove(os.path.join(downloads_dir, file))
                 print(f"Deleted: {file}")
-            except
+            except PermissionError:
                 print(f"Could not delete {file}: still in use")
         print("Queue Cleared")
     else:

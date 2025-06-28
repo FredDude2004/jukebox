@@ -4,7 +4,7 @@ A joint music queue web app built with Flask. Jukebox allows users to add songs 
 
 ---
 [Installation](#installation)
-
+[Using Jukebox](#using-jukebox)
 ---
 
 I followed a lot of different tutorials and esentially Frankenstein's Monstered this together.
@@ -68,21 +68,20 @@ cd Jukebox
 
 # Create and activate a virtual environment 
 python -m venv venv
-\venv\Scripts\activate
+venv\Scripts\activate
 
 # Install dependencies
 pip install -r .\requirements.txt
 ```
 
-Next you need to setup a .env file to store the passwords and database key, originallyI just hardcoded the values and GitHub yelled at me so I had to use the dotenv library
-to store them securely
+Next you need to setup a .env file to store the passwords and database key, originally I just hardcoded the values and GitHub yelled at me so I had to use the dotenv library to store them securely
 
 ```powershell
 # Create environment file
 echo . > .env
 
-# Open the file in VS Code
-code .
+# Open the file in your text editor of choice 
+code . # opens current folder in VSCode
 ```
 
 Then setup the variables
@@ -104,7 +103,11 @@ python -c "import secrets; print(secrets.token_hex(32))"
 
 and copy the output into the .env file. 
 
-Now with everything setup you can just run the program, you will need to know your IP address for other users to be able to access the site, and once the server is running others can access it with http://<YOUR_IP_ADDRESS>:5000
+Now with everything setup you can just run the program, you will need to know your IP address for other users on your network can able to access the site, once the server is running they can visit 
+
+```txt
+http://<YOUR_IP_ADDRESS>:5000
+```
 
 ```powershell
 # get IP Address
@@ -116,6 +119,8 @@ Then just run the program
 ```powershell
 python .\run.py
 ```
+
+When you are done with the program, just send a KeyBoardInterrupt with ^C
 
 ## Linux
 You can install all of the prerequisites using your distibustions package manager
@@ -183,5 +188,26 @@ python run.py
 
 When you are done with the program, just send a KeyBoardInterrupt with ^C
 
+## Using Jukebox
+### Admin Dashboard 
+To enter the Admin Dashboard you simply need to login as "admin"
+The first thing you should do after running the server for the first time is register the admin user. Visit the site by clicking on the link that is printed on the terminal and enter "admin" as the username and click register. 
 
+![Register_Admin_Example](./.images/register_admin.png)
+
+You should then be prompted to enter the admin username and password that you set in the .env file
+
+
+## User Dashboard
+On whatever device that you want to host the server follow the [Installation](#installation) instructions 
+
+Once you are running the server and you have noted down your IP Address, others can visit the site by entering the link 
+
+```txt
+http://<YOUR_IP_ADDRESS>:5000
+```
+
+Once they are there they can enter their username and register. Once registered they will be brought to the dashboard where they can view the queue and enter songs to be added to the queue. 
+
+NOTE: There is a duration limit of the video link that can be submited of 1 hour and 10 minutes. This stops users from flooding the queue with "10 Hours of Fart Noises" while still allowing you to add longer mixes if wanted. 
 
