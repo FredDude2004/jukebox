@@ -9,6 +9,9 @@ A joint music queue built with Flask. Jukebox allows users to add songs to a que
 
 I followed a lot of different tutorials and esentially Frankenstein's Monstered this together. Here is a list of the tutorials that I followed to get this working. 
 
+### Bootstrap
+- Front-end made easy, [Bootstrap Docs](https://getbootstrap.com/)
+
 ### Official Flask documentation
 - Great resource for getting started, [Flask Documentation](https://flask.palletsprojects.com/en/stable/).
 
