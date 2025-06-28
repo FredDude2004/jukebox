@@ -189,18 +189,21 @@ python run.py
 When you are done with the program, just send a KeyBoardInterrupt with ^C
 
 ## Using Jukebox
+On whatever device that you want to host the server follow the [Installation](#installation) instructions 
+
 ### Admin Dashboard 
-To enter the Admin Dashboard you simply need to login as "admin"
 The first thing you should do after running the server for the first time is register the admin user. Visit the site by clicking on the link that is printed on the terminal and enter "admin" as the username and click register. 
 
 ![Register_Admin_Example](./images/register_admin.png)
 
+To enter the Admin Dashboard you simply need to login as "admin".
 You should then be prompted to enter the admin username and password that you set in the .env file
 
+![Basic_Auth](./images/basic_auth.png)
+
+The Username should be "admin" and the password is whatever you set it to.
 
 ## User Dashboard
-On whatever device that you want to host the server follow the [Installation](#installation) instructions 
-
 Once you are running the server and you have noted down your IP Address, others can visit the site by entering the link 
 
 ```txt
@@ -209,5 +212,5 @@ http://<YOUR_IP_ADDRESS>:5000
 
 Once they are there they can enter their username and register. Once registered they will be brought to the dashboard where they can view the queue and enter songs to be added to the queue. 
 
-NOTE: There is a duration limit of the video link that can be submited of 1 hour and 10 minutes. This stops users from flooding the queue with "10 Hours of Fart Noises" while still allowing you to add longer mixes if wanted. 
+NOTE: There is a duration limit of the video link that can be submited of 1 hour and 10 minutes. This stops users from flooding the queue with "10 Hours of Fart Noises" while still allowing you to add longer mixes if so desired. 
 
