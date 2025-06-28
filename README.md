@@ -3,8 +3,8 @@
 A joint music queue web app built with Flask. Jukebox allows users to add songs to a queue via YouTube, and an admin can control playback (pause, skip, stop) through a secure dashboard. Ideal for parties or shared spaces where everyone can contribute to the vibe.
 
 ---
-[Installation](#installation)
-[Using Jukebox](#using-jukebox)
+- [Installation](#installation)
+- [Using Jukebox](#using-jukebox)
 ---
 
 I followed a lot of different tutorials and esentially Frankenstein's Monstered this together.
@@ -193,7 +193,7 @@ When you are done with the program, just send a KeyBoardInterrupt with ^C
 To enter the Admin Dashboard you simply need to login as "admin"
 The first thing you should do after running the server for the first time is register the admin user. Visit the site by clicking on the link that is printed on the terminal and enter "admin" as the username and click register. 
 
-![Register_Admin_Example](./.images/register_admin.png)
+![Register_Admin_Example](./images/register_admin.png)
 
 You should then be prompted to enter the admin username and password that you set in the .env file
 
