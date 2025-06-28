@@ -1,2 +1,24 @@
-Discord Music Bot Python:
-https://www.youtube.com/watch?v=U5CUkxUh2CQ
+I followed a lot of different tutorials and esentially Frankenstein's 
+Monstered this together.
+Here is a list of the tutorials that I followed to get this up and running
+
+Downloading Music from YouTube with Python:
+  This guy makes a Discord Music bot and uses yt-dlp and FFmpeg
+   - https://www.youtube.com/watch?v=U5CUkxUh2CQ
+
+Simple Flask Blog from Scratch:
+  - https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3
+
+Authentication:
+  - https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login
+  - https://youtu.be/Fr2MxT9M0V4?si=UXkqOSAb8cqTn49T  (This guy was cracked)
+
+Admin Dashboard:
+  Video getting a basic version working 
+   - https://www.youtube.com/watch?v=G1FBSYJ45Ww
+  Official documentation
+   - https://flask-admin.readthedocs.io/en/stable/
+
+Playing the Audio:
+  This just worked and it was great 
+    - https://youtu.be/5F9cl4ZCqQ8?si=VNEBMN1oKNDfPBVo

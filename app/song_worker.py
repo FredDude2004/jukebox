@@ -18,6 +18,11 @@ def pause():
 
 def skip():
     pygame.mixer.music.stop()
+    
+    song = SongQueue.query.filter_by(is_playing=True).first()
+    if song:
+        db.session.delete(song)
+        db.session.commit()
 
 def clear_queue():
     # deleting all songs from DB
@@ -28,6 +33,7 @@ def clear_queue():
 
     # stopping current song
     pygame.mixer.music.stop()
+    time.sleep(0.1) # sleeping to allow windows to free the mp3 file
 
     # removing all downloaded songs
     downloads_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'downloads')
@@ -35,7 +41,11 @@ def clear_queue():
 
     if os.path.exists(downloads_dir):
         for file in os.listdir(downloads_dir):
-            os.remove(os.path.join(downloads_dir, file))
+            try:
+                os.remove(os.path.join(downloads_dir, file))
+                print(f"Deleted: {file}")
+            except
+                print(f"Could not delete {file}: still in use")
         print("Queue Cleared")
     else:
         print(f"Directory not found: {downloads_dir}")

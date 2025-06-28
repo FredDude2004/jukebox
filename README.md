@@ -1,72 +1,187 @@
 # 🎵 Jukebox
 
-A real-time collaborative music queue web app built with Flask. Jukebox allows users to add songs via YouTube, and admins can control playback (pause, skip, stop) through a secure dashboard. Ideal for parties or shared spaces where everyone can contribute to the vibe.
+A joint music queue web app built with Flask. Jukebox allows users to add songs to a queue via YouTube, and an admin can control playback (pause, skip, stop) through a secure dashboard. Ideal for parties or shared spaces where everyone can contribute to the vibe.
+
+---
+[Installation](#installation)
 
 ---
 
-## 🚀 Features
+I followed a lot of different tutorials and esentially Frankenstein's Monstered this together.
+Here is a list of the tutorials that I followed to get this working. 
 
-- 📥 Add songs to a shared queue by pasting YouTube links
-- ⏯️ Admin dashboard for playback controls (Pause, Skip, Stop)
-- 🔄 Real-time updates using WebSockets (Flask-SocketIO)
-- 🧑‍💼 BasicAuth-protected admin interface
-- ⏳ Loading states to prevent duplicate submissions
-- 📱 Mobile-friendly interface
+### Official Flask documentation
+  Great resource for getting started, [Flask Documentation](https://flask.palletsprojects.com/en/stable/)
 
----
+### Downloading Music from YouTube with Python:
+  [Tutorial](https://www.youtube.com/watch?v=U5CUkxUh2CQ) for a Discord Music bot using yt-dlp and FFmpeg. 
 
-## 🛠️ Tech Stack
+### Simple Flask Blog from Scratch:
+  Digital Ocean's tutorial for a [flask-blog](https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3) used this to get a sense for the structure of a flask application. 
 
-| Tech           | Role                                     |
-|----------------|------------------------------------------|
-| Python         | Core backend language                    |
-| Flask          | Web framework                            |
-| Flask-SocketIO | Real-time communication                  |
-| SQLAlchemy     | ORM and database management              |
-| Flask-Admin    | Admin dashboard for playback controls    |
-| Flask-BasicAuth| Simple admin authentication              |
-| FFmpeg         | Download and process audio from YouTube  |
-| yt-dlp         | Download YouTube content                 |
-| SQLite         | Lightweight database                     |
-| HTML/CSS/JS    | Frontend (simple and functional)         |
-| Socket.IO JS   | Client-side real-time updates            |
+### User Authentication:
+   Another Digital Ocean tutorial for [user-authentiacation](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login)
+   Also heavily used this [tutorial](https://youtu.be/Fr2MxT9M0V4?si=UXkqOSAb8cqTn49T)for user authentiacation, and I ended up scrapping the passwords because there didn't seem to be a need from the tests I did. 
+
+### Admin Dashboard:
+  Video showcasing default [admin-dashboard](https://www.youtube.com/watch?v=G1FBSYJ45Ww)
+  Official [documentation](https://flask-admin.readthedocs.io/en/stable/)
+  I had the defualt dashboard originally but something broke when I was adding the Pause, Skip and Clear Queue buttons, and I couldn't figure out how to fix it.
+
+### Playing the Audio:
+  Ended up using pygame for playing the audio using [this](https://youtu.be/5F9cl4ZCqQ8?si=VNEBMN1oKNDfPBVo) tutorial, which worked great. 
 
 ---
 
-## 🧰 Setup
+##  Features
 
-### ✅ Prerequisites
+-  Add songs to a shared queue by pasting YouTube links
+-  Admin dashboard for playback controls (Pause, Skip, Clear Queue)
+-  Real-time updates using WebSockets (Flask-SocketIO)
+-  BasicAuth-protected admin interface
+-  Loading states to prevent duplicate submissions
+-  Mobile-friendly interface
+
+---
+
+## Installation 
+
+###  Prerequisites
 
 - Python 3.8+
 - FFmpeg installed (`ffmpeg` available in PATH)
-- Node.js (only if customizing the frontend)
 - Git
 
----
+## Windows
+You can install all of the prerequisites using Choclatey, to install Chocolatey follow this [tutorial](https://youtu.be/-5WLKu_J_AE?si=0TgG6fzj7YFdLzOF).
 
-### 🔧 Installation
+Make sure you're running PowerShell as an administrator and install the packages 
+```powershell
+choco install python ffmpeg git.install
+```
+Once the packages are installed you can open a regular PowerShell instance and go to wherever you want the program to stay (i.e. C:\Users\<USERNAME>\Desktop\..).
+
+```powershell 
+# Clone the repo 
+git clone https://github.com/FredDude2004/Jukebox.git
+cd Jukebox
+
+# Create and activate a virtual environment 
+python -m venv venv
+\venv\Scripts\activate
+
+# Install dependencies
+pip install -r .\requirements.txt
+```
+
+Next you need to setup a .env file to store the passwords and database key, originallyI just hardcoded the values and GitHub yelled at me so I had to use the dotenv library
+to store them securely
+
+```powershell
+# Create environment file
+echo . > .env
+
+# Open the file in VS Code
+code .
+```
+
+Then setup the variables
+
+```txt
+# Database Key
+SECRET_KEY=super_secret_key
+
+# Username for admin dashboard must be 'admin' but password can be anything you want
+BASIC_AUTH_USERNAME='admin' # keep this as admin
+BASIC_AUTH_PASSWORD='password' # change this to whatever you want 
+```
+
+For setting a secure database key you can generate one like this 
+
+```powershell
+python -c "import secrets; print(secrets.token_hex(32))"
+```
+
+and copy the output into the .env file. 
+
+Now with everything setup you can just run the program, you will need to know your IP address for other users to be able to access the site, and once the server is running others can access it with http://<YOUR_IP_ADDRESS>:5000
+
+```powershell
+# get IP Address
+Get-NetIPAddress | Where-Object {$_.IPAddress -like "192.168.*"} | Select-Object IPAddress
+```
+
+Then just run the program
+
+```powershell
+python .\run.py
+```
+
+## Linux
+You can install all of the prerequisites using your distibustions package manager
+
+```bash
+sudo apt install python ffmpeg git 
+```
+
+Once installed you can navigate to wherever you want the repo to live
 
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/jukebox.git
-cd jukebox
+git clone https://github.com/FredDude2004/Jukebox.git
+cd Jukebox
 
 # Create a virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  
 
 # Install dependencies
 pip install -r requirements.txt
+```
 
-# Set up environment variables
-cp .env.example .env
-# Then edit .env to set your BasicAuth credentials
+Next you need to set up your environment variables 
 
-# Initialize the database
-python
->>> from app import db
->>> db.create_all()
->>> exit()
+```bash
+touch .env
 
-# Start the app
-flask run
+# Open the file in a text editor
+vim .env
+```
+
+Then setup the variables
+
+```txt
+# Database Key
+SECRET_KEY=super_secret_key
+
+# Username for admin dashboard must be 'admin' but password can be anything you want
+BASIC_AUTH_USERNAME='admin' # keep this as admin
+BASIC_AUTH_PASSWORD='password' # change this to whatever you want 
+```
+
+For setting a secure database key you can generate one like this 
+
+```bash
+python -c "import secrets; print(secrets.token_hex(32))"
+```
+
+You are going to need your IP address to be for people on your network to be able to access the site.
+
+```bash
+# For Raspberry Pi
+hostname -I
+
+# For other distros
+ip -4 -o addr show scope global | awk '{print $4}' | cut -d/ -f1 | grep '^192\.168\.'
+```
+
+Then you can run the program
+
+```bash
+python run.py
+```
+
+When you are done with the program, just send a KeyBoardInterrupt with ^C
+
+
+
