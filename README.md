@@ -20,7 +20,7 @@ I followed a lot of different tutorials and esentially Frankenstein's Monstered 
 
 ### User Authentication:
 - Another Digital Ocean tutorial for [user-authentiacation](https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login)
-- Also heavily used this [tutorial](https://youtu.be/Fr2MxT9M0V4?si=UXkqOSAb8cqTn49T)for user authentiacation. I ended up scrapping the passwords because they didn't seem to be necessary with the tests that I did.
+- Also heavily used this [tutorial](https://youtu.be/Fr2MxT9M0V4?si=UXkqOSAb8cqTn49T) for user authentiacation. I ended up scrapping the passwords because they didn't seem to be necessary with the tests that I did.
 
 ### Admin Dashboard:
 - Video showcasing default [admin-dashboard](https://www.youtube.com/watch?v=G1FBSYJ45Ww).
