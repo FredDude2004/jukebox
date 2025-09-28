@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <title>WebSocket Test</title>
+  </head>
+  <body>
+    <h2>WebSocket Test</h2>
+    <input id="message" type="text" placeholder="Type a message" />
+    <button onclick="sendMessage()">Send</button>
+    <div id="output"></div>
+
+    <script>
+      // Connect to your Flask-Sock endpoint
+      const ws = new WebSocket("ws://localhost:5000/reverse");
+
+      ws.onopen = () => {
+        console.log("Connected to WebSocket server");
+        document.getElementById("output").innerHTML +=
+          "<p><b>Connected.</b></p>";
+      };
+
+      ws.onmessage = (event) => {
+        console.log("Received:", event.data);
+        document.getElementById("output").innerHTML +=
+          "<p>Server: " + event.data + "</p>";
+      };
+
+      ws.onclose = () => {
+        console.log("Connection closed");
+        document.getElementById("output").innerHTML +=
+          "<p><b>Disconnected.</b></p>";
+      };
+
+      function sendMessage() {
+        const msg = document.getElementById("message").value;
+        ws.send(msg);
+        document.getElementById("output").innerHTML +=
+          "<p>You: " + msg + "</p>";
+      }
+    </script>
+  </body>
+</html>

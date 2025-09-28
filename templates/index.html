@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+  <head>
+    <title>YouTube Queue</title>
+  </head>
+  <body>
+    <input id="ytInput" placeholder="Paste YouTube link" style="width: 300px" />
+    <button onclick="addVideo()">Add</button>
+    <button onclick="skipVideo()">Skip (Admin)</button>
+
+    <h3>Now Playing:</h3>
+    <iframe
+      id="ytPlayer"
+      width="560"
+      height="315"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+    ></iframe>
+
+    <h3>Queue:</h3>
+    <ul id="queue"></ul>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+      const socket = io();
+
+      function extractVideoId(url) {
+        let match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+        return match ? match[1] : null;
+      }
+
+      function addVideo() {
+        const url = document.getElementById("ytInput").value;
+        const id = extractVideoId(url);
+        if (id) socket.emit("add_video", id);
+      }
+
+      function skipVideo() {
+        socket.emit("skip_video");
+      }
+
+      socket.on("now_playing", (videoId) => {
+        if (videoId) {
+          document.getElementById("ytPlayer").src =
+            "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+        } else {
+          document.getElementById("ytPlayer").src = "";
+        }
+      });
+
+      socket.on("queue_updated", (queue) => {
+        const ul = document.getElementById("queue");
+        ul.innerHTML = "";
+        queue.forEach((id) => {
+          let li = document.createElement("li");
+          li.textContent = id;
+          ul.appendChild(li);
+        });
+      });
+
+      // Detect when video ends (simple version)
+      // For production you'd use YouTube IFrame API
+      document.getElementById("ytPlayer").addEventListener("ended", () => {
+        socket.emit("video_ended");
+      });
+    </script>
+  </body>
+</html>
