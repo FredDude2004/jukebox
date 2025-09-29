@@ -20,10 +20,21 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+
+
+@app.route("/player")
+def player():
+    return render_template("player.html")
+
+
 @socketio.on("add_video")
-def handle_add_video(video_url):
+def handle_add_video(video_id):
     global current_video
-    queue.append(video_url)
+    title = fetch_youtube_title(video_id)
+    queue.append([video_id, title])
     socketio.emit("queue_updated", queue)
 
     if current_video is None:
@@ -43,7 +54,7 @@ def handle_skip_video():
 def play_next():
     global current_video
     if queue:
-        current_video = queue.pop(0)
+        current_video = queue.pop()[0]
     else:
         current_video = None
 

@@ -1,0 +1,10 @@
+Need to figure out why the sockets aren't working across the different pages
+Why won't the index page send a video ID to the queue
+
+Need to store both the video ID and the title and display the title
+
+Clear text bar on submit
+
+style everything
+
+need to block the other URL's

@@ -5,7 +5,7 @@
   </head>
   <body>
     <input id="ytInput" placeholder="Paste YouTube link" style="width: 300px" />
-    <button onclick="addVideo()">Add</button>
+    <button onclick="addVideo(this)">Add</button>
 
     <h3>Now Playing:</h3>
     <h3 id="current-song"></h3>
@@ -23,38 +23,23 @@
       }
 
       function addVideo() {
+        button.disabled = true;
+        button.innerHTML =
+          'Adding... <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+        button.form.submit();
         const url = document.getElementById("ytInput").value;
         const id = extractVideoId(url);
         if (id) socket.emit("add_video", id);
       }
 
-      function skipVideo() {
-        socket.emit("skip_video");
-      }
-
-      socket.on("now_playing", (videoId) => {
-        if (videoId) {
-          document.getElementById("ytPlayer").src =
-            "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
-        } else {
-          document.getElementById("ytPlayer").src = "";
-        }
-      });
-
       socket.on("queue_updated", (queue) => {
         const ul = document.getElementById("queue");
         ul.innerHTML = "";
-        queue.forEach((id) => {
+        queue.forEach((title) => {
           let li = document.createElement("li");
-          li.textContent = id;
+          li.textContent = title;
           ul.appendChild(li);
         });
-      });
-
-      // Detect when video ends (simple version)
-      // For production you'd use YouTube IFrame API
-      document.getElementById("ytPlayer").addEventListener("ended", () => {
-        socket.emit("video_ended");
       });
     </script>
   </body>
