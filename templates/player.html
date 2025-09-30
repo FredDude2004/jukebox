@@ -62,11 +62,23 @@
         });
       });
 
-      // Detect when video ends (simple version)
-      // For production you'd use YouTube IFrame API
-      document.getElementById("ytPlayer").addEventListener("ended", () => {
-        socket.emit("video_ended");
-      });
+      // Detect when video ends
+      let player;
+
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player("my-youtube-player", {
+          events: {
+            onStateChange: onPlayerStateChange,
+          },
+        });
+      }
+
+      function onPlayerStateChange(event) {
+        // The YT.PlayerState object provides constants for each state.
+        if (event.data === YT.PlayerState.ENDED) {
+          socket.emit("video_ended");
+        }
+      }
     </script>
   </body>
 </html>

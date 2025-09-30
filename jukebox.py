@@ -2,8 +2,8 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO
 
 import urllib.request
+import urllib.parse
 import json
-import urllib3
 import pprint
 
 
@@ -65,14 +65,14 @@ def play_next():
 def fetch_youtube_title(video_id):
     params = {"format": "json", "url": "https://www.youtube.com/watch?v=%s" % video_id}
     url = "https://www.youtube.com/oembed"
-    query_string = urllib3.parse.urlencode(params)
+    query_string = urllib.parse.urlencode(params)
     url = url + "?" + query_string
 
     with urllib.request.urlopen(url) as response:
         response_text = response.read()
         data = json.loads(response_text.decode())
-        pprint.pprint(data)
-        print(data["title"])
+
+        return data["title"]
 
 
 if __name__ == "__main__":

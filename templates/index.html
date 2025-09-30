@@ -23,10 +23,6 @@
       }
 
       function addVideo() {
-        button.disabled = true;
-        button.innerHTML =
-          'Adding... <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
-        button.form.submit();
         const url = document.getElementById("ytInput").value;
         const id = extractVideoId(url);
         if (id) socket.emit("add_video", id);

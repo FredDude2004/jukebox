@@ -1,10 +1,11 @@
-Need to figure out why the sockets aren't working across the different pages
-Why won't the index page send a video ID to the queue
+- [x] Need to figure out why the sockets aren't working across the different pages
 
-Need to store both the video ID and the title and display the title
+- [ ] Why won't the index page send a video ID to the queue
 
-Clear text bar on submit
+- [ ] Need to store both the video ID and the title and display the title
 
-style everything
+- [ ] Clear text bar on submit
 
-need to block the other URL's
+- [ ] style everything
+
+- [ ] need to block the other URL's
